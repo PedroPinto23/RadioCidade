@@ -58,7 +58,7 @@ export default class App extends React.Component {
           return (
             <div key={key + 1} className="col-lg-3">
               <img
-                src="faith-no-more_-_easy.jpg"
+                src="https://capas-apps.s3.us-east-2.amazonaws.com/radiocidade/eric-clapton_-_bad-love.jpg"
                 className="img-fluid"
                 alt=""
                 width="100%"
