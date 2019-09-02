@@ -2,13 +2,11 @@ import React from "react";
 import "./index.css";
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      playList: [],
-      abums: []
-    };
-  }
+  state = {
+    playList: [],
+    abums: []
+  };
+
   componentDidMount() {
     var xhttp = new XMLHttpRequest();
     xhttp.open(
@@ -24,29 +22,30 @@ export default class App extends React.Component {
         this.setState({
           playList: obj.body
         });
+
         var playList = this.state.playList;
-        var obj2 = JSON.stringify(playList[0]);
-        console.log(obj2);
+        console.log(playList);
+
+        var xhttp2 = [];
+        xhttp2 = new XMLHttpRequest();
+        xhttp2.open(
+          "POST",
+          "https://0o7qeyq4of.execute-api.us-east-2.amazonaws.com/dev/radiocidade/capas",
+          true
+        );
+        xhttp2.setRequestHeader("Content-type", "application/json");
+
+        // eslint-disable-next-line no-loop-func
+        xhttp2.onreadystatechange = () => {
+          if (xhttp2.readyState === 4 && xhttp2.status === 200) {
+            var capas = JSON.parse(xhttp2.responseText);
+
+            console.log(capas);
+          }
+        };
+        xhttp2.send(JSON.stringify(playList[0]));
+  
       }
-
-      var xhttp2 = new XMLHttpRequest();
-      xhttp2.open(
-        "POST",
-        "https://0o7qeyq4of.execute-api.us-east-2.amazonaws.com/dev/radiocidade/capas",
-        true
-      );
-      xhttp2.setRequestHeader("Content-type", "application/json");
-
-      xhttp2.onreadystatechange = () => {
-        if (xhttp2.readyState === 4 && xhttp2.status === 200) {
-          var obj3 = JSON.parse(xhttp2.responseText);
-          console.log(obj3);
-        }
-        this.setState({ albums: obj3 });
-        var album = this.state.albums;
-        console.log(album);
-      };
-      xhttp2.send(obj2);
     };
 
     xhttp.send();
